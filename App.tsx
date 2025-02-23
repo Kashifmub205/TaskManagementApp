@@ -9,7 +9,6 @@ import {ThemeProvider, useTheme} from './src/context/ThemeContext';
 import {verticalScale} from './src/utils';
 import Toast from 'react-native-toast-message';
 import NetInfo from '@react-native-community/netinfo';
-
 const AppContent = () => {
   const {theme} = useTheme();
 
