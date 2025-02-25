@@ -1,34 +1,35 @@
+
+
+
 import { StyleSheet } from 'react-native';
 import { useTheme } from '../../../context/ThemeContext';
+import { horizontalScale, moderateScale, verticalScale } from '../../../utils';
 import Colors from '../../../constants/Colors';
-import { verticalScale } from '../../../utils';
 
 
 export const useDynamicStyles = () => {
-  const { theme, mode} = useTheme();
+  const { theme, mode } = useTheme();
 
   return StyleSheet.create({
     container: {
       flex: 1,
-      // justifyContent: 'center',
-      // alignItems: 'center',
-      backgroundColor: theme.background, 
-      padding: 20, 
+      backgroundColor: theme.background,
+      padding: horizontalScale(20),
     },
     title: {
-      fontSize: 24,
+      fontSize: moderateScale(24),
       fontWeight: 'bold',
-      color: theme.text, 
-      marginBottom: 20,
+      color: theme.text,
+      marginBottom: verticalScale(20),
     },
     input: {
       width: '100%',
-      height: 50,
+      height: verticalScale(50),
       borderWidth: 1,
       borderColor: theme.gray,
-      borderRadius: 8,
-      paddingHorizontal: 15,
-      marginBottom: 10,
+      borderRadius: moderateScale(8),
+      paddingHorizontal: horizontalScale(15),
+      marginBottom: verticalScale(10),
       color: theme.text,
     },
     scrollContainer: {
@@ -37,48 +38,48 @@ export const useDynamicStyles = () => {
       alignItems: 'center',
     },
     eyeIcon: {
-      padding: 10,
+      padding: moderateScale(12),
     },
     error: {
       color: theme.error,
-      fontSize: 14,
-      marginBottom: 10,
+      fontSize: moderateScale(14),
+      marginBottom: verticalScale(10),
     },
     disabledButton: {
-      backgroundColor: '#A9A9A9', 
+      backgroundColor: '#A9A9A9',
     },
     passwordContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       borderWidth: 1,
-      borderRadius: 8,
-      paddingHorizontal: 10,
+      borderRadius: moderateScale(8),
+      paddingHorizontal: horizontalScale(10),
       borderColor: theme.gray,
-
-      marginBottom: 15,
+      marginBottom: verticalScale(15),
     },
     passwordInput: {
       flex: 1,
-      padding: 10,
+      padding: moderateScale(10),
+      color: theme.text
     },
     button: {
       width: '100%',
-      height: 50,
+      height: verticalScale(50),
       backgroundColor: theme.primary,
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: 8,
-      marginTop: 10,
+      borderRadius: moderateScale(8),
+      marginTop: verticalScale(10),
     },
     buttonText: {
-      color: theme.background,
-      fontSize: 18,
+      color: Colors.dark.text,
+      fontSize: moderateScale(18),
       fontWeight: 'bold',
     },
     signupText: {
       color: theme.primary,
-      marginTop: 15,
-      fontSize: 16,
+      marginTop: verticalScale(15),
+      fontSize: moderateScale(16),
     },
     btnView: {
       flexDirection: 'row',
@@ -88,16 +89,15 @@ export const useDynamicStyles = () => {
     },
     linkPrimary: {
       color: theme.primary,
-      fontSize: 16,
+      fontSize: moderateScale(16),
     },
     linkTextColor: {
-      color: mode === 'light' ? Colors.light.text : Colors.dark.text,
+      color: mode === 'light' ? theme.text : theme.text,
     },
     linkText: {
       color: theme.primary,
-      //   textAlign: 'center',
-      //   marginTop: 10,
-      fontSize: 16,
+      fontSize: moderateScale(16),
     },
   });
 };
+

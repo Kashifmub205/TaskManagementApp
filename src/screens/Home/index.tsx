@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, FlatList, TouchableOpacity, Text, TextInput, Alert} from 'react-native';
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  Alert,
+} from 'react-native';
 import {useTaskContext} from '../../context/TaskContext';
 import TaskCard from '../../components/TaskCard';
 import {AddTaskModal} from '../../modals/AddTask';
@@ -9,16 +16,16 @@ import moment from 'moment';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Feather from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; 
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Colors from '../../constants/Colors';
-const Home = ({ navigation }: any) => {
+import {removeToken} from '../../services/secureStorage';
+const Home = ({navigation}: any) => {
   const {tasks} = useTaskContext();
   const [modalVisible, setModalVisible] = useState(false);
   const {theme, toggleTheme, mode} = useTheme();
   const styles = useDynamicStyles();
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('');
-  
 
   const filteredTasks = tasks.filter(task => {
     const formattedDueDate = moment(task.dueDate).format('MM/DD hh:mm A');
@@ -51,8 +58,8 @@ const Home = ({ navigation }: any) => {
   });
   const handleLogout = async () => {
     Alert.alert(
-      'Logout', 
-      'Are you sure you want to log out?', 
+      'Logout',
+      'Are you sure you want to log out?',
       [
         { text: 'Cancel', style: 'cancel' },
         { 
@@ -60,7 +67,14 @@ const Home = ({ navigation }: any) => {
           style: 'destructive',
           onPress: async () => {
             try {
-              await auth().signOut();
+              await removeToken(); 
+              const user = auth().currentUser;
+              
+              if (user) {
+                await auth().signOut(); 
+              }
+  
+          
               navigation.replace('Login'); 
             } catch (error) {
               console.error('Logout Error:', error);
@@ -70,9 +84,10 @@ const Home = ({ navigation }: any) => {
       ]
     );
   };
+  
   return (
     <View style={styles.container}>
-     <View style={styles.header}>
+      <View style={styles.header}>
         <Feather
           name={mode === 'dark' ? 'sun' : 'moon'}
           size={24}
@@ -80,9 +95,13 @@ const Home = ({ navigation }: any) => {
           style={styles.mode}
           onPress={toggleTheme}
         />
-        <TouchableOpacity onPress={handleLogout} style={{ padding: 10 }}>
-      <MaterialIcons name="logout" size={24} color={mode === 'dark' ? Colors.dark.text : Colors.light.text} /> 
-    </TouchableOpacity>
+        <TouchableOpacity onPress={handleLogout} style={{padding: 10}}>
+          <MaterialIcons
+            name="logout"
+            size={24}
+            color={mode === 'dark' ? Colors.dark.text : Colors.light.text}
+          />
+        </TouchableOpacity>
       </View>
       <TextInput
         style={styles.searchInput}
@@ -119,6 +138,15 @@ const Home = ({ navigation }: any) => {
             task={item}
           />
         )}
+        ListEmptyComponent={
+          searchQuery.length > 0 ? ( // Show message only when user searches something
+            <View style={{ alignItems: 'center', marginTop: 20 }}>
+              <Text style={{ color: theme.text, fontSize: 16 }}>
+                No search results found
+              </Text>
+            </View>
+          ) : null // Do not show message when search is empty
+        }
       />
 
       <TouchableOpacity

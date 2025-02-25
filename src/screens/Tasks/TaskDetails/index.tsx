@@ -1,17 +1,13 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
-
-import {RouteProp, useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
 import {useTaskContext} from '../../../context/TaskContext';
 import {useTaskDetailsStyles} from './styles';
-import moment from 'moment';
-import DatePicker from 'react-native-date-picker';
+import {useTheme} from '../../../context/ThemeContext';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-type TaskDetailsScreenProps = {
-  route: RouteProp<{params: {taskId: string}}, 'params'>;
-  navigation: StackNavigationProp<any>;
-};
 
 const TaskDetails: React.FC<TaskDetailsScreenProps> = ({route, navigation}) => {
   const {taskId} = route.params;
@@ -21,12 +17,13 @@ const TaskDetails: React.FC<TaskDetailsScreenProps> = ({route, navigation}) => {
 
   const [title, setTitle] = useState(task?.title || '');
   const [description, setDescription] = useState(task?.description || '');
-
-  const [dueDate, setDueDate] = useState<Date | null>(task?.dueDate);
-
+  const [dueDate, setDueDate] = useState<Date | null>(
+    task?.dueDate ? new Date(task.dueDate) : null,
+  );
   const [priority, setPriority] = useState(task?.priority || 'medium');
   const [status, setStatus] = useState(task?.status || 'pending');
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const {theme} = useTheme();
 
   if (!task) {
     return (
@@ -72,7 +69,12 @@ const TaskDetails: React.FC<TaskDetailsScreenProps> = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Task Details</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color={theme.text} />
+        </TouchableOpacity>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>Task Details</Text>
+      </View>
 
       <TextInput
         style={styles.input}
@@ -80,6 +82,7 @@ const TaskDetails: React.FC<TaskDetailsScreenProps> = ({route, navigation}) => {
         onChangeText={setTitle}
         placeholder="Title"
       />
+
       <TextInput
         style={styles.input}
         value={description}
@@ -91,11 +94,17 @@ const TaskDetails: React.FC<TaskDetailsScreenProps> = ({route, navigation}) => {
       <TouchableOpacity
         onPress={() => setShowDatePicker(true)}
         style={styles.dateInputContainer}>
-        <Text style={{color: 'black'}}>
+        <Text style={[styles.dateText]}>
           {dueDate
-            ? moment(new Date(dueDate)).format('MM/DD hh:mm A')
+            ? moment(dueDate).format('MM/DD hh:mm A')
             : 'Select Due Date'}
         </Text>
+        <MaterialCommunityIcons
+          name="clock-outline"
+          size={20}
+          color={theme.gray}
+          style={{marginLeft: 8}}
+        />
       </TouchableOpacity>
 
       <DatePicker
@@ -116,10 +125,21 @@ const TaskDetails: React.FC<TaskDetailsScreenProps> = ({route, navigation}) => {
             key={level}
             style={[
               styles.priorityButton,
-              priority === level && styles.selectedPriority,
+              {
+                backgroundColor:
+                  priority === level ? theme.primary : theme.background,
+              },
             ]}
             onPress={() => setPriority(level as 'low' | 'medium' | 'high')}>
-            <Text style={styles.priorityText}>{level}</Text>
+            <Text
+              style={[
+                styles.priorityText,
+                {
+                  color: priority === level ? theme.background : theme.text,
+                },
+              ]}>
+              {level}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -130,10 +150,21 @@ const TaskDetails: React.FC<TaskDetailsScreenProps> = ({route, navigation}) => {
             key={state}
             style={[
               styles.statusButton,
-              status === state && styles.selectedStatus,
+              {
+                backgroundColor:
+                  status === state ? theme.primary : theme.background,
+              },
             ]}
             onPress={() => setStatus(state as 'pending' | 'completed')}>
-            <Text style={styles.statusText}>{state}</Text>
+            <Text
+              style={[
+                styles.statusText,
+                {
+                  color: status === state ? theme.background : theme.text,
+                },
+              ]}>
+              {state}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>

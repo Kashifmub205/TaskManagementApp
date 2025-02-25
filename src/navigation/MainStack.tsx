@@ -4,18 +4,20 @@ import {NavigationContainer} from '@react-navigation/native';
 import Home from '../screens/Home';
 
 import TaskDetails from '../screens/Tasks/TaskDetails';
-import {StatusBar} from 'react-native';
 import SignUp from '../screens/Auth/SignUp';
 import Login from '../screens/Auth/LogIn';
 
 const Stack = createStackNavigator();
 
-const MainStack = () => {
+
+const MainStack = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
+  console.log('isAuthenticated', isAuthenticated)
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{headerShown: false}}>
+        initialRouteName={isAuthenticated ? 'Home' : 'Login'}
+        screenOptions={{ headerShown: false }}
+      >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="TaskDetails" component={TaskDetails} />

@@ -1,25 +1,25 @@
-import {StyleSheet} from 'react-native';
-import {useTheme} from '../../context/ThemeContext';
-import {verticalScale} from '../../utils';
+import { StyleSheet } from 'react-native';
+import { useTheme } from '../../context/ThemeContext';
+import { verticalScale, horizontalScale, moderateScale } from '../../utils';
 
 export const useDynamicStyles = () => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   return StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: theme.background,
-      padding: 16,
+      padding: horizontalScale(16),
     },
     searchInput: {
       width: '100%',
       borderWidth: 1,
       borderColor: theme.gray,
-      padding: 10,
-      borderRadius: 5,
+      padding: moderateScale(10),
+      borderRadius: moderateScale(5),
       backgroundColor: theme.card,
       color: theme.text,
-      marginBottom: 10,
+      marginBottom: verticalScale(10),
     },
     mode: {
       alignSelf: 'flex-end',
@@ -29,47 +29,50 @@ export const useDynamicStyles = () => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: 16,
+      padding: horizontalScale(16),
     },
+    noSearch:{ alignItems: 'center', marginTop: verticalScale(20) },
+    searchText:{ color: theme.text, fontSize: moderateScale(16) },
     logoutText: {
       color: 'red',
-      fontSize: 16,
+      fontSize: moderateScale(16),
       fontWeight: 'bold',
     },
     sortContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginBottom: 10,
+      marginBottom: verticalScale(10),
     },
     sortButton: {
-      padding: 10,
+      padding: moderateScale(10),
       borderWidth: 1,
       borderColor: theme.primary,
-      borderRadius: 5,
-      backgroundColor: theme.primary,
+      borderRadius: moderateScale(5),
+      backgroundColor: theme.background,
     },
     sortButtonText: {
       color: theme.text,
-      fontSize: 14,
+      fontSize: moderateScale(14),
+      fontWeight: '600',
     },
     fab: {
       position: 'absolute',
-      bottom: 80,
-      right: 20,
+      bottom: verticalScale(80),
+      right: horizontalScale(20),
       backgroundColor: theme.primary,
-      width: 50,
-      height: 50,
-      borderRadius: 30,
+      width: moderateScale(50),
+      height: moderateScale(50),
+      borderRadius: moderateScale(30),
       alignItems: 'center',
       justifyContent: 'center',
       elevation: 5,
     },
     themeToggleButton: {
       backgroundColor: theme.primary,
-      padding: 10,
-      borderRadius: 5,
+      padding: moderateScale(10),
+      borderRadius: moderateScale(5),
       alignItems: 'center',
-      marginVertical: 10,
+      marginVertical: verticalScale(10),
     },
   });
 };

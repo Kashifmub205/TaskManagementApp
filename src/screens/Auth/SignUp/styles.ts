@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { useTheme } from '../../../context/ThemeContext';
 import Colors from '../../../constants/Colors';
-import { verticalScale } from '../../../utils';
+import { verticalScale, horizontalScale, moderateScale } from '../../../utils';
 
 export const useSignUpStyles = () => {
   const { theme, mode } = useTheme();
@@ -9,25 +9,23 @@ export const useSignUpStyles = () => {
   return StyleSheet.create({
     container: {
       flex: 1,
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
       backgroundColor: theme.background,
-      padding: 20,
+      padding: horizontalScale(20),
     },
     title: {
-      fontSize: 24,
+      fontSize: moderateScale(24),
       fontWeight: 'bold',
       color: theme.text,
-      marginBottom: 20,
+      marginBottom: verticalScale(20),
     },
     input: {
       width: '100%',
-      height: 50,
+      height: verticalScale(50),
       borderWidth: 1,
       borderColor: theme.gray,
-      borderRadius: 8,
-      paddingHorizontal: 15,
-      marginBottom: 10,
+      borderRadius: moderateScale(8),
+      paddingHorizontal: horizontalScale(15),
+      marginBottom: verticalScale(10),
       color: theme.text,
     },
     passwordContainer: {
@@ -36,22 +34,22 @@ export const useSignUpStyles = () => {
       alignItems: 'center',
       borderWidth: 1,
       borderColor: theme.gray,
-      borderRadius: 8,
-      paddingHorizontal: 15,
-      marginBottom: 10,
+      borderRadius: moderateScale(8),
+      paddingHorizontal: horizontalScale(15),
+      marginBottom: verticalScale(10),
     },
     passwordInput: {
       flex: 1,
-      height: 50,
+      height: verticalScale(50),
       color: theme.text,
     },
     eyeIcon: {
-      padding: 10,
+      padding: moderateScale(10),
     },
     error: {
       color: theme.error,
-      fontSize: 14,
-      marginBottom: 10,
+      fontSize: moderateScale(14),
+      marginBottom: verticalScale(10),
     },
     btnView: {
       flexDirection: 'row',
@@ -61,36 +59,36 @@ export const useSignUpStyles = () => {
     },
     linkPrimary: {
       color: theme.primary,
-      fontSize: 16,
+      fontSize: moderateScale(16),
     },
     linkTextColor: {
       color: mode === 'light' ? Colors.light.text : Colors.dark.text,
     },
     button: {
       width: '100%',
-      height: 50,
+      height: verticalScale(50),
       backgroundColor: theme.primary,
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: 8,
-      marginTop: 10,
+      borderRadius: moderateScale(8),
+      marginTop: verticalScale(10),
     },
     disabledButton: {
       backgroundColor: '#A9A9A9',
     },
     buttonText: {
       color: 'white',
-      fontSize: 18,
+      fontSize: moderateScale(18),
       fontWeight: 'bold',
     },
     linkText: {
       color: theme.primary,
-      fontSize: 16,
+      fontSize: moderateScale(16),
     },
     scrollContainer: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
+      flexGrow: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
   });
 };

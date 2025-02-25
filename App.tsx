@@ -10,18 +10,26 @@ import {verticalScale} from './src/utils';
 import Toast from 'react-native-toast-message';
 import NetInfo from '@react-native-community/netinfo';
 import auth from '@react-native-firebase/auth';
+import {getToken} from './src/services/secureStorage';
+import {ActivityIndicator} from 'react-native';
+import Colors from './src/constants/Colors';
 
 const AppContent = () => {
- 
-
-  
-  const {theme} = useTheme();
-
-
+  const {theme, mode} = useTheme();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    const checkAuth = async () => {
+      const token = await getToken();
+      console.log('Retrieved Token:', token); 
+      setIsAuthenticated(!!token);
+      setLoading(false);
+    };
     
-    const unsubscribe = NetInfo.addEventListener((state:any) => {
-      if (state.isConnected === false) {
+    checkAuth();
+
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (!state.isConnected) {
         Toast.show({
           type: 'error',
           text1: 'No Internet Connection',
@@ -35,11 +43,32 @@ const AppContent = () => {
 
     return () => unsubscribe();
   }, []);
+  if (loading) {
+    return (
+      <View
+        style={[
+          styles.loader,
+          {
+            backgroundColor: mode === 'dark' ? Colors.dark.background : Colors.light.background,
+          },
+        ]}>
+        <ActivityIndicator size="large" color={theme.primary} />
+      </View>
+    );
+  }
+  
+  
   
   return (
     <TaskProvider>
-      <View style={[styles.container, {backgroundColor: theme.background}]}>
-        <MainStack />
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: theme.background,
+          },
+        ]}>
+        <MainStack isAuthenticated={isAuthenticated} />
       </View>
     </TaskProvider>
   );
@@ -49,15 +78,17 @@ const App = () => {
   return (
     <ThemeProvider>
       <AppContent />
-      <Toast /> 
+      <Toast />
     </ThemeProvider>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container: {flex: 1, paddingTop: verticalScale(60)},
+  loader: {
     flex: 1,
-    paddingTop: verticalScale(80),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

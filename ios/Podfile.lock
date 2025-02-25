@@ -1350,6 +1350,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-encrypted-storage (4.0.3):
+    - React-Core
   - react-native-netinfo (11.4.1):
     - React-Core
   - react-native-safe-area-context (5.2.0):
@@ -1781,6 +1783,27 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNKeychain (9.2.3):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNReanimated (3.17.0):
     - DoubleConversion
     - glog
@@ -2013,6 +2036,7 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
+  - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
@@ -2050,6 +2074,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -2150,6 +2175,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
+  react-native-encrypted-storage:
+    :path: "../node_modules/react-native-encrypted-storage"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
@@ -2224,6 +2251,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/auth"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -2285,6 +2314,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: bbd3be71ef32e8198ac0f78b841662103e032ffe
   React-microtasksnativemodule: 8e65fc37744388153b9bca94552d04955d852058
   react-native-date-picker: 9af9a9747bc556fcadc584a69c08dee88276f45c
+  react-native-encrypted-storage: 569d114e329b1c2c2d9f8c84bcdbe4478dda2258
   react-native-netinfo: cec9c4e86083cb5b6aba0e0711f563e2fbbff187
   react-native-safe-area-context: 02e0f487c16ccf1acc8a666bed2318ceeb5dc14c
   react-native-sqlite-storage: 0c84826214baaa498796c7e46a5ccc9a82e114ed
@@ -2323,6 +2353,7 @@ SPEC CHECKSUMS:
   RNFBApp: b5626640e0f4b4fe5be4f44375df703c0d62ee4b
   RNFBAuth: 4d211bc48e5b8cf67815a49661b4c8b638b842b2
   RNGestureHandler: f7b3a72c099e1e29b5b81688678bc9108d44057c
+  RNKeychain: a62db5d0ed91ce7bcb6f65b8c42ae2557701afc1
   RNReanimated: 92450b43d1a179fe8c89aabc8e2f93f32a9c4a95
   RNScreens: 4eb8ba2102cdbbc581b2362a88b87531ce589ebc
   RNVectorIcons: 1743deffb9c4b70f253704075dbac432cc802e74

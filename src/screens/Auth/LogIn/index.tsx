@@ -16,15 +16,16 @@ import Feather from 'react-native-vector-icons/Feather';
 
 import { useTheme } from '../../../context/ThemeContext';
 import { useDynamicStyles } from './styles';
+import { storeToken } from '../../../services/secureStorage';
 
 const Login = ({ navigation }: any) => {
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { theme } = useTheme();
-
   const styles = useDynamicStyles();
 
   const togglePasswordVisibility = () => {
@@ -37,8 +38,13 @@ const Login = ({ navigation }: any) => {
 
     const auth = getAuth();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const token = await userCredential.user.getIdToken(); 
+      console.log('tokennn', token)
+
+      await storeToken(token); 
       console.log('User logged in successfully!');
+
       navigation.replace('Home');
     } catch (error: any) {
       setErrorMessage(error.message);

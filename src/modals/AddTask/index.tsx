@@ -5,7 +5,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -15,6 +14,8 @@ import {useTaskContext} from '../../context/TaskContext';
 import {useDynamicStyles} from './styles';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import {useTheme} from '../../context/ThemeContext';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface AddTaskModalProps {
   visible: boolean;
@@ -32,6 +33,7 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
   const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [dueDate, setDueDate] = useState<Date | null>(null);
+  const {theme} = useTheme();
 
   const styles = useDynamicStyles();
 
@@ -53,7 +55,12 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
     setPriority('medium');
     onClose();
   };
-
+  const handleClose = () => {
+    onClose();
+    setDueDate(null);
+    setTitle('');
+    setDescription('');
+  };
   return (
     <Modal visible={visible} transparent animationType="slide">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -61,9 +68,15 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
           style={styles.modalOverlay}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <View style={styles.modalContainer}>
+            <TouchableOpacity onPress={handleClose} style={styles.closeIcon}>
+              <MaterialCommunityIcons
+                name="close-circle"
+                size={30}
+                color={theme.text}
+              />
+            </TouchableOpacity>
             <Text style={styles.modalTitle}>Add Task</Text>
 
-      
             <TextInput
               style={styles.input}
               placeholder="Title"
@@ -71,7 +84,6 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
               onChangeText={setTitle}
             />
 
-      
             <TextInput
               style={styles.input}
               placeholder="Description"
@@ -80,27 +92,28 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
               multiline
             />
 
-         
             <TouchableOpacity
               onPress={() => setShowDatePicker(true)}
               style={styles.dateInputContainer}>
-              <Text
-                style={[
-                  styles.dateText,
-                  dueDate ? {} : styles.placeholderText,
-                ]}>
+              <Text style={[styles.dateText]}>
                 {dueDate
                   ? moment(dueDate).format('MM/DD hh:mm A')
                   : 'Select Due Date'}
               </Text>
+              <MaterialCommunityIcons
+                name="clock-outline"
+                size={20}
+                color={theme.gray}
+                style={{marginLeft: 8}}
+              />
             </TouchableOpacity>
 
-            {/* Date Picker Modal */}
+         
             <DatePicker
               modal
               open={showDatePicker}
               date={dueDate || new Date()}
-              mode='datetime'
+              mode="datetime"
               onConfirm={selectedDate => {
                 setShowDatePicker(false);
                 setDueDate(selectedDate);
@@ -108,31 +121,36 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
               onCancel={() => setShowDatePicker(false)}
             />
 
-     
             <View style={styles.priorityContainer}>
               {['low', 'medium', 'high'].map(level => (
                 <TouchableOpacity
                   key={level}
                   style={[
                     styles.priorityButton,
-                    priority === level && styles.selectedPriority,
+                    {
+                      backgroundColor:
+                        priority === level ? theme.primary : theme.background,
+                    },
                   ]}
                   onPress={() =>
                     setPriority(level as 'low' | 'medium' | 'high')
                   }>
-                  <Text style={styles.priorityText}>{level}</Text>
+                  <Text
+                    style={[
+                      styles.priorityText,
+                      {
+                        color:
+                          priority === level ? theme.background : theme.text,
+                      },
+                    ]}>
+                    {level}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
 
-         
             <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
               <Text style={styles.addButtonText}>Add Task</Text>
-            </TouchableOpacity>
-
-       
-            <TouchableOpacity onPress={onClose}>
-              <Text style={styles.closeText}>Close</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
