@@ -25,6 +25,17 @@ export const useDynamicStyles = () => {
       alignSelf: 'flex-end',
       marginBottom: verticalScale(15),
     },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 16,
+    },
+    logoutText: {
+      color: 'red',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
     sortContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',

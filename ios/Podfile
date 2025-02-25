@@ -1,3 +1,9 @@
+pod 'Firebase', :modular_headers => true
+pod 'FirebaseCoreInternal', :modular_headers => true
+pod 'GoogleUtilities', :modular_headers => true
+pod 'FirebaseCore', :modular_headers => true
+# pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
+
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -6,7 +12,10 @@ require Pod::Executable.execute_command('node', ['-p',
   )', __dir__]).strip
 
 platform :ios, min_ios_version_supported
+
 prepare_react_native_project!
+use_frameworks! :linkage => :static
+$RNFirebaseAsStaticFramework = true
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -35,6 +44,11 @@ target 'TaskManagement' do
       # :ccache_enabled => true
     )
 
+      installer.pods_project.targets.each do |target|
+        if target.name == 'React'
+          target.remove_from_project
+        end
+    end  
  
     installer.pods_project.targets.each do |target|
       if target.name == 'react-native-sqlite-storage'

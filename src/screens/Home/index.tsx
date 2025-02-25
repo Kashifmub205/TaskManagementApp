@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, FlatList, TouchableOpacity, Text, TextInput} from 'react-native';
+import {View, FlatList, TouchableOpacity, Text, TextInput, Alert} from 'react-native';
 import {useTaskContext} from '../../context/TaskContext';
 import TaskCard from '../../components/TaskCard';
 import {AddTaskModal} from '../../modals/AddTask';
@@ -7,16 +7,18 @@ import {useTheme} from '../../context/ThemeContext';
 import {useDynamicStyles} from './styles';
 import moment from 'moment';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import Icon from 'react-native-vector-icons/Feather';
-
-
-const Home = () => {
+import Feather from 'react-native-vector-icons/Feather';
+import auth from '@react-native-firebase/auth';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; 
+import Colors from '../../constants/Colors';
+const Home = ({ navigation }: any) => {
   const {tasks} = useTaskContext();
   const [modalVisible, setModalVisible] = useState(false);
   const {theme, toggleTheme, mode} = useTheme();
   const styles = useDynamicStyles();
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('');
+  
 
   const filteredTasks = tasks.filter(task => {
     const formattedDueDate = moment(task.dueDate).format('MM/DD hh:mm A');
@@ -47,16 +49,41 @@ const Home = () => {
     }
     return 0;
   });
-
+  const handleLogout = async () => {
+    Alert.alert(
+      'Logout', 
+      'Are you sure you want to log out?', 
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Logout', 
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await auth().signOut();
+              navigation.replace('Login'); 
+            } catch (error) {
+              console.error('Logout Error:', error);
+            }
+          }
+        }
+      ]
+    );
+  };
   return (
     <View style={styles.container}>
-      <Icon
-        name={mode === 'dark' ? 'sun' : 'moon'}
-        size={24}
-        color={theme.text}
-        style={styles.mode}
-        onPress={toggleTheme}
-      />
+     <View style={styles.header}>
+        <Feather
+          name={mode === 'dark' ? 'sun' : 'moon'}
+          size={24}
+          color={theme.text}
+          style={styles.mode}
+          onPress={toggleTheme}
+        />
+        <TouchableOpacity onPress={handleLogout} style={{ padding: 10 }}>
+      <MaterialIcons name="logout" size={24} color={mode === 'dark' ? Colors.dark.text : Colors.light.text} /> 
+    </TouchableOpacity>
+      </View>
       <TextInput
         style={styles.searchInput}
         placeholder="Search tasks..."

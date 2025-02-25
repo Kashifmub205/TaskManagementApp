@@ -9,11 +9,17 @@ import {ThemeProvider, useTheme} from './src/context/ThemeContext';
 import {verticalScale} from './src/utils';
 import Toast from 'react-native-toast-message';
 import NetInfo from '@react-native-community/netinfo';
+import auth from '@react-native-firebase/auth';
+
 const AppContent = () => {
+ 
+
   
   const {theme} = useTheme();
 
+
   useEffect(() => {
+    
     const unsubscribe = NetInfo.addEventListener((state:any) => {
       if (state.isConnected === false) {
         Toast.show({
