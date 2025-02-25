@@ -1,34 +1,34 @@
-This is a new React Native project, bootstrapped using @react-native-community/cli.
+This is a new React Native project, built using @react-native-community/cli.
 
-Task Management App
+### Task Management App
 
 A React Native task management app with Firebase authentication, offline storage, and animations.
 
-Features
+### Features
 
-Email/Password authentication with Firebase
+- Email/Password authentication with Firebase
 
-Secure authentication state using SecureStore (iOS) / EncryptedStorage (Android)
+- Secure authentication state using SecureStore (iOS) / EncryptedStorage (Android)
 
-CRUD functionality for tasks (SQLite/AsyncStorage for offline storage)
+- CRUD functionality for tasks (SQLite/AsyncStorage for offline storage)
 
-Automatic data syncing across sessions
+- Automatic data syncing across sessions
 
-Offline banner when the internet is unavailable
+- Offline banner when the internet is unavailable
 
-Context API for global state management
+- Context API for global state management
 
-React Navigation for app navigation
+- React Navigation for app navigation
 
-Reanimated animations for smooth UI transitions
+- Reanimated animations for smooth UI transitions
 
-Dark Mode support
+- Dark Mode support
 
-Getting Started
+### Getting Started
 
 Note: Make sure you have completed the Set Up Your Environment guide before proceeding.
 
-Step 1: Start Metro
+### Step 1: Start Metro
 
 First, you will need to run Metro, the JavaScript build tool for React Native.
 
