@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,25 +7,24 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 
-import { getAuth, signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import {getAuth, signInWithEmailAndPassword} from '@react-native-firebase/auth';
 
 import Feather from 'react-native-vector-icons/Feather';
 
-import { useTheme } from '../../../context/ThemeContext';
-import { useDynamicStyles } from './styles';
-import { storeToken } from '../../../services/secureStorage';
+import {useTheme} from '../../../context/ThemeContext';
+import {useDynamicStyles} from './styles';
+import {storeToken} from '../../../services/secureStorage';
 
-const Login = ({ navigation }: any) => {
-  
+const Login = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { theme } = useTheme();
+  const {theme} = useTheme();
   const styles = useDynamicStyles();
 
   const togglePasswordVisibility = () => {
@@ -38,11 +37,15 @@ const Login = ({ navigation }: any) => {
 
     const auth = getAuth();
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const token = await userCredential.user.getIdToken(); 
-      console.log('tokennn', token)
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const token = await userCredential.user.getIdToken();
+      console.log('tokennn', token);
 
-      await storeToken(token); 
+      await storeToken(token);
       console.log('User logged in successfully!');
 
       navigation.replace('Home');
@@ -55,9 +58,10 @@ const Login = ({ navigation }: any) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
-      <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
+      style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled">
         <Text style={styles.title}>Login</Text>
 
         <TextInput
@@ -79,8 +83,14 @@ const Login = ({ navigation }: any) => {
             value={password}
             secureTextEntry={!passwordVisible}
           />
-          <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
-            <Feather name={passwordVisible ? 'eye' : 'eye-off'} size={20} color={theme.text} />
+          <TouchableOpacity
+            onPress={togglePasswordVisibility}
+            style={styles.eyeIcon}>
+            <Feather
+              name={passwordVisible ? 'eye' : 'eye-off'}
+              size={20}
+              color={theme.text}
+            />
           </TouchableOpacity>
         </View>
 
@@ -89,8 +99,7 @@ const Login = ({ navigation }: any) => {
         <TouchableOpacity
           style={[styles.button, loading && styles.disabledButton]}
           onPress={onLogin}
-          disabled={loading}
-        >
+          disabled={loading}>
           {loading ? (
             <ActivityIndicator color={theme.text} />
           ) : (
@@ -99,7 +108,9 @@ const Login = ({ navigation }: any) => {
         </TouchableOpacity>
 
         <View style={styles.btnView}>
-          <Text style={[styles.linkText, styles.linkTextColor]}>Don't have an account?</Text>
+          <Text style={[styles.linkText, styles.linkTextColor]}>
+            Don't have an account?
+          </Text>
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
             <Text style={styles.linkPrimary}> Sign Up</Text>
           </TouchableOpacity>

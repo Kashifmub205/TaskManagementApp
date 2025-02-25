@@ -139,13 +139,13 @@ const Home = ({navigation}: any) => {
           />
         )}
         ListEmptyComponent={
-          searchQuery.length > 0 ? ( // Show message only when user searches something
-            <View style={{ alignItems: 'center', marginTop: 20 }}>
-              <Text style={{ color: theme.text, fontSize: 16 }}>
+          searchQuery.length > 0 ? (
+            <View style={styles.noSearch}>
+              <Text style={styles.searchText}>
                 No search results found
               </Text>
             </View>
-          ) : null // Do not show message when search is empty
+          ) : null 
         }
       />
 
